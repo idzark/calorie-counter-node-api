@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+require('./models/User');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -10,7 +11,9 @@ const errorHandlers = require('./handlers/errorHandlers');
 
 require('dotenv').config({ path: 'variables.env' });
 
+
 const app = express();
+
 
 app.use(cors());
 app.use(morgan('dev'));

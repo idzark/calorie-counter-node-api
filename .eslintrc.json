@@ -3,6 +3,14 @@
     "rules": {
         "comma-dangle": ["error", "never"],
         "func-names": 0,
-        "linebreak-style": ["error", "windows"]
+        "linebreak-style": ["error", "windows"],
+        "prefer-destructuring": [
+            "error",
+            {
+                "object": false,
+                "array": false
+            }
+        ],
+        "no-underscore-dangle": 0
     }
 }
