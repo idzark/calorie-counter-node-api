@@ -6,8 +6,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
+const validator = require('express-validator');
 const routes = require('./routes/index');
 const errorHandlers = require('./handlers/errorHandlers');
+
 
 require('dotenv').config({ path: 'variables.env' });
 
@@ -19,6 +21,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(validator());
 
 app.use('/api', routes);
 
