@@ -6,9 +6,17 @@ const saltRounds = 10;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  username: String,
-  email: String,
-  password: String
+  username: {
+    type: String,
+    trim: true,
+    required: [true, 'Username is required'],
+    lowercase: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required']
+  }
 });
 
 userSchema.pre('save', async function hashPassword(next) {

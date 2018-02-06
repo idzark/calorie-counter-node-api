@@ -1,11 +1,42 @@
 const mongoose = require('mongoose');
+const { check, validationResult } = require('express-validator/check');
+const { sanitize } = require('express-validator/filter');
 
 const User = mongoose.model('User');
 
+
 exports.register = async (req, res) => {
-  const userData = req.body;
-  const user = new User(userData);
+  const username = req.body.username;
+  const password = req.body.password;
+  const user = new User({ username, password });
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
+    return res.status(400).json({ errors: errors.array() });
+  }
 
   await user.save();
-  res.sendStatus(200);
+  return res.sendStatus(204);
 };
+
+exports.registerValidation = [
+  sanitize('username'),
+  check('username')
+    .trim()
+    .isLength({ min: 3, max: 16 })
+    .withMessage('Username must be beetwen 3 and 16 characters long')
+    .matches(/^\S*$/u)
+    .withMessage('Spaces not allowed in username')
+    .custom(async (value) => {
+      const user = await User.findOne({ username: value });
+      return !user;
+    })
+    .withMessage('This username is already taken'),
+  check('password')
+    .isLength({ min: 5 })
+    .withMessage('Password must be at least 5 characters long'),
+  check('passwordConfirmation')
+    .custom((value, { req }) => value === req.body.password)
+    .withMessage('Passwords do not match')
+];
