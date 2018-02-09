@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 require('./models/User');
+require('./models/Product');
 
 const express = require('express');
 const bodyParser = require('body-parser');

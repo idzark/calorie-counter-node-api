@@ -4,6 +4,7 @@ const { asyncHandler } = require('../handlers/errorHandlers');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const foodController = require('../controllers/foodController');
 
 
 router.get('/', (req, res) => {
@@ -12,5 +13,9 @@ router.get('/', (req, res) => {
 
 router.post('/register', userController.registerValidation, asyncHandler(userController.register));
 router.post('/login', authController.loginValidation, asyncHandler(authController.login));
+
+router.post('/product', authController.isAuthenticated, asyncHandler(foodController.addProduct));
+router.get('/products', authController.isAuthenticated, asyncHandler(foodController.getProducts));
+
 
 module.exports = router;

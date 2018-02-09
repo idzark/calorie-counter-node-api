@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
     sub: user._id,
     username: loginData.username
   };
-  const token = jwt.sign(payload, process.env.SECRET, { expiresIn: 120 });
+  const token = jwt.sign(payload, process.env.SECRET, { expiresIn: 6000 });
 
   res.status(200).json({ token });
 };
