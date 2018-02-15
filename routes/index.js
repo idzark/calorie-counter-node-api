@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 router.post('/register', userController.registerValidation, asyncHandler(userController.register));
 router.post('/login', authController.loginValidation, asyncHandler(authController.login));
 
-router.post('/product', authController.isAuthenticated, asyncHandler(foodController.addProduct));
+router.post('/product', authController.isAuthenticated, foodController.productValidation, asyncHandler(foodController.addProduct));
 router.get('/products', authController.isAuthenticated, asyncHandler(foodController.getProducts));
 
 
