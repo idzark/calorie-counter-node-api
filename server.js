@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 require('./models/User');
 require('./models/Product');
+require('./models/Meal');
 
 const express = require('express');
 const bodyParser = require('body-parser');
