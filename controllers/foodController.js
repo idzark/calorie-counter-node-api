@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator/check');
 
 const Product = mongoose.model('Product');
+const Meal = mongoose.model('Meal');
 
 exports.addProduct = async (req, res) => {
   const product = new Product({
@@ -22,12 +23,29 @@ exports.addProduct = async (req, res) => {
   return res.sendStatus(204);
 };
 
+exports.addMeal = async (req, res) => {
+  const meal = new Meal(req.body);
+  meal.author = req.userId;
+
+  await meal.save();
+  return res.sendStatus(204);
+};
+
+
 exports.getProducts = async (req, res) => {
   const userId = req.userId;
 
   const products = await Product.find({ author: userId }, '-_id -author');
 
   res.status(200).json(products);
+};
+
+exports.getMeals = async (req, res) => {
+  const userId = req.userId;
+
+  const meals = await Meal.find({ author: userId }, '-_id -author');
+
+  res.status(200).json(meals);
 };
 
 exports.productValidation = [

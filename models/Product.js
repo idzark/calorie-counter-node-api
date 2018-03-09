@@ -8,7 +8,8 @@ const productSchema = new Schema({
   protein: Number,
   carbs: Number,
   fats: Number,
-  calories: Number
+  calories: Number,
+  weight: { type: Number, default: 100 }
 });
 
 module.exports = mongoose.model('Product', productSchema);
