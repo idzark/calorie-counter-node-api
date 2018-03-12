@@ -8,11 +8,11 @@ const mealSchema = new Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   name: String,
   ingredients: [Product.schema],
-  weightTotal: Number,
-  proteinTotal: Number,
-  carbsTotal: Number,
-  fatsTotal: Number,
-  caloriesTotal: Number,
+  weight: Number,
+  protein: Number,
+  carbs: Number,
+  fats: Number,
+  calories: Number,
   imageUrl: {
     type: String,
     default: 'https://images.pexels.com/photos/616404/pexels-photo-616404.jpeg?h=350&auto=compress&cs=tinysrgb'
