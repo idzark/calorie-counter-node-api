@@ -3,6 +3,7 @@ const { check, validationResult } = require('express-validator/check');
 
 const Product = mongoose.model('Product');
 const Meal = mongoose.model('Meal');
+const FoodLog = mongoose.model('FoodLog');
 
 exports.addProduct = async (req, res) => {
   const product = new Product({
@@ -77,3 +78,30 @@ exports.productValidation = [
     .isInt()
     .withMessage('Calories amount must be a number')
 ];
+
+exports.addFoodLog = async (req, res) => {
+  const foodLog = new FoodLog(req.body);
+  foodLog.author = req.userId;
+
+  await foodLog.save();
+  return res.sendStatus(204);
+};
+
+exports.getFoodLog = async (req, res) => {
+  const userId = req.userId;
+  const foodlogDate = req.query.date;
+
+  const foodLog = await FoodLog.find({ author: userId, date: foodlogDate }, '-_id -author');
+
+  return res.status(200).json(foodLog);
+};
+
+exports.updateFoodLog = async (req, res) => {
+  const updateData = req.body;
+  const userId = req.userId;
+  const date = req.body.date;
+  const foodLog = await FoodLog.findOne({ author: userId, date });
+
+  await foodLog.update(updateData);
+  return res.sendStatus(204);
+};
