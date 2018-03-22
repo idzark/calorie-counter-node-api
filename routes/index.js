@@ -20,5 +20,9 @@ router.get('/products', authController.isAuthenticated, asyncHandler(foodControl
 router.post('/meal', authController.isAuthenticated, asyncHandler(foodController.addMeal));
 router.get('/meals', authController.isAuthenticated, asyncHandler(foodController.getMeals));
 
+router.post('/foodlog', authController.isAuthenticated, asyncHandler(foodController.addFoodLog));
+router.put('/foodlog', authController.isAuthenticated, asyncHandler(foodController.updateFoodLog));
+router.get('/foodlogs', authController.isAuthenticated, asyncHandler(foodController.getFoodLog));
+
 
 module.exports = router;

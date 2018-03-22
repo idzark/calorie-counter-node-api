@@ -2,6 +2,7 @@
 require('./models/User');
 require('./models/Product');
 require('./models/Meal');
+require('./models/FoodLog');
 
 const express = require('express');
 const bodyParser = require('body-parser');
