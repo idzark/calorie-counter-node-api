@@ -16,7 +16,13 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, 'Password is required']
-  }
+  },
+  height: { type: Number, default: 175 },
+  weight: { type: Number, default: 75 },
+  calories: { type: Number, default: 2500 },
+  protein: { type: Number, default: 150 },
+  carbs: { type: Number, default: 295 },
+  fats: { type: Number, default: 80 }
 });
 
 userSchema.pre('save', async function hashPassword(next) {
