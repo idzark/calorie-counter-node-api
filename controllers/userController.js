@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
 exports.getUserProfile = async (req, res) => {
   const userId = req.userId;
 
-  const user = await User.findOne({ _id: userId }, '-_id -password');
+  const user = await User.findOne({ _id: userId }, '-_id, -password');
   return res.status(200).json(user);
 };
 
@@ -31,10 +31,10 @@ exports.updateProfile = async (req, res) => {
   const userProfile = req.body;
   const userId = req.userId;
 
-  const user = await User.findOne({ _id: userId });
-  await user.update(userProfile);
+  await User.update({ _id: userId }, userProfile);
+  const user = await User.findOne({ _id: userId }, '-_id, -password');
 
-  return res.sendStatus(204);
+  return res.status(200).json(user);
 };
 
 exports.registerValidation = [

@@ -11,10 +11,10 @@ router.get('/', (req, res) => {
   res.send('hello world');
 });
 
-router.get('/user/profile', authController.isAuthenticated, asyncHandler(userController.getUserProfile));
-router.post('/user/register', userController.registerValidation, asyncHandler(userController.register));
-router.post('/user/login', authController.loginValidation, asyncHandler(authController.login));
-router.put('/user/update', authController.isAuthenticated, asyncHandler(userController.updateProfile));
+router.get('/user', authController.isAuthenticated, asyncHandler(userController.getUserProfile));
+router.post('/register', userController.registerValidation, asyncHandler(userController.register));
+router.post('/login', authController.loginValidation, asyncHandler(authController.login));
+router.put('/user', authController.isAuthenticated, asyncHandler(userController.updateProfile));
 
 router.post('/product', authController.isAuthenticated, foodController.productValidation, asyncHandler(foodController.addProduct));
 router.get('/products', authController.isAuthenticated, asyncHandler(foodController.getProducts));
