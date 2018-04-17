@@ -28,6 +28,11 @@ exports.addMeal = async (req, res) => {
   const meal = new Meal(req.body);
   meal.author = req.userId;
 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json(errors.array());
+  }
+
   await meal.save();
   return res.sendStatus(204);
 };
@@ -36,7 +41,7 @@ exports.addMeal = async (req, res) => {
 exports.getProducts = async (req, res) => {
   const userId = req.userId;
 
-  const products = await Product.find({ author: userId }, '-_id -author');
+  const products = await Product.find({ author: userId }, '-author');
 
   res.status(200).json(products);
 };
@@ -44,7 +49,7 @@ exports.getProducts = async (req, res) => {
 exports.getMeals = async (req, res) => {
   const userId = req.userId;
 
-  const meals = await Meal.find({ author: userId }, '-_id -author');
+  const meals = await Meal.find({ author: userId }, '-author');
 
   res.status(200).json(meals);
 };
@@ -77,6 +82,23 @@ exports.productValidation = [
     .trim()
     .isInt()
     .withMessage('Calories amount must be a number')
+];
+
+exports.mealValidation = [
+  check('name')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Name is required')
+    .isLength({ max: 20 })
+    .withMessage('Name must be a maximum of 20 characters long')
+    .custom(async (value, { req }) => {
+      const meal = await Meal.findOne({ name: value, author: req.userId });
+      return !meal;
+    })
+    .withMessage('You already added product with that name'),
+  check('category')
+    .exists()
+    .withMessage('Please choose category')
 ];
 
 exports.addFoodLog = async (req, res) => {

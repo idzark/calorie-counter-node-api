@@ -19,7 +19,7 @@ router.put('/user', authController.isAuthenticated, userController.profileValida
 router.post('/product', authController.isAuthenticated, foodController.productValidation, asyncHandler(foodController.addProduct));
 router.get('/products', authController.isAuthenticated, asyncHandler(foodController.getProducts));
 
-router.post('/meal', authController.isAuthenticated, asyncHandler(foodController.addMeal));
+router.post('/meal', authController.isAuthenticated, foodController.mealValidation, asyncHandler(foodController.addMeal));
 router.get('/meals', authController.isAuthenticated, asyncHandler(foodController.getMeals));
 
 router.post('/foodlog', authController.isAuthenticated, asyncHandler(foodController.addFoodLog));

@@ -16,7 +16,8 @@ const mealSchema = new Schema({
   imageUrl: {
     type: String,
     default: 'https://images.pexels.com/photos/616404/pexels-photo-616404.jpeg?h=350&auto=compress&cs=tinysrgb'
-  }
+  },
+  category: String
 });
 
 module.exports = mongoose.model('Meal', mealSchema);
