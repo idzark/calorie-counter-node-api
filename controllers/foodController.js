@@ -6,14 +6,8 @@ const Meal = mongoose.model('Meal');
 const FoodLog = mongoose.model('FoodLog');
 
 exports.addProduct = async (req, res) => {
-  const product = new Product({
-    author: req.userId,
-    name: req.body.name,
-    protein: req.body.protein,
-    carbs: req.body.carbs,
-    fats: req.body.fats,
-    calories: req.body.calories
-  });
+  const product = new Product(req.body);
+  product.author = req.userId;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -21,7 +15,28 @@ exports.addProduct = async (req, res) => {
   }
 
   await product.save();
-  return res.sendStatus(204);
+  return res.status(200).json(product);
+};
+
+exports.updateProduct = async (req, res) => {
+  const updateData = req.body;
+  const productId = req.params.id;
+  const userId = req.userId;
+
+  await Product.update({ author: userId, _id: productId }, updateData);
+  const product = await Product.findOne({ author: userId, _id: productId }, '-author');
+
+  return res.status(200).json(product);
+};
+
+exports.deleteProduct = async (req, res) => {
+  const userId = req.userId;
+  const productId = req.params.id;
+
+  const product = await Product.findOne({ author: userId, _id: productId }, '-author');
+  await Product.remove({ author: userId, _id: productId });
+
+  return res.status(200).json(product);
 };
 
 exports.addMeal = async (req, res) => {
@@ -34,7 +49,26 @@ exports.addMeal = async (req, res) => {
   }
 
   await meal.save();
+  return res.status(200).json(meal);
+};
+
+exports.updateMeal = async (req, res) => {
+  const updateData = req.body;
+  const userId = req.userId;
+  const mealId = req.params.id;
+
+  await Meal.update({ author: userId, _id: mealId }, updateData);
   return res.sendStatus(204);
+};
+
+exports.deleteMeal = async (req, res) => {
+  const userId = req.userId;
+  const mealId = req.params.id;
+
+  const meal = await Meal.findOne({ author: userId, _id: mealId }, '-author');
+  await Meal.remove({ author: userId, _id: mealId });
+
+  res.status(200).json(meal);
 };
 
 

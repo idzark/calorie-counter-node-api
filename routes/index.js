@@ -17,10 +17,14 @@ router.post('/login', authController.loginValidation, asyncHandler(authControlle
 router.put('/user', authController.isAuthenticated, userController.profileValidation, asyncHandler(userController.updateProfile));
 
 router.post('/product', authController.isAuthenticated, foodController.productValidation, asyncHandler(foodController.addProduct));
+router.put('/products/:id', authController.isAuthenticated, foodController.productValidation, asyncHandler(foodController.updateProduct));
 router.get('/products', authController.isAuthenticated, asyncHandler(foodController.getProducts));
+router.delete('/products/:id', authController.isAuthenticated, asyncHandler(foodController.deleteProduct));
 
 router.post('/meal', authController.isAuthenticated, foodController.mealValidation, asyncHandler(foodController.addMeal));
+router.put('/meals/:id', authController.isAuthenticated, foodController.mealValidation, asyncHandler(foodController.updateMeal));
 router.get('/meals', authController.isAuthenticated, asyncHandler(foodController.getMeals));
+router.delete('/meals/:id', authController.isAuthenticated, asyncHandler(foodController.deleteMeal));
 
 router.post('/foodlog', authController.isAuthenticated, asyncHandler(foodController.addFoodLog));
 router.put('/foodlog', authController.isAuthenticated, asyncHandler(foodController.updateFoodLog));
