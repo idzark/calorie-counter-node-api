@@ -10,7 +10,6 @@ const userSchema = new Schema({
     type: String,
     trim: true,
     required: [true, 'Username is required'],
-    lowercase: true,
     unique: true
   },
   password: {
